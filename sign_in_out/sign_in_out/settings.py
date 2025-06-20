@@ -75,7 +75,7 @@ ROOT_URLCONF = 'sign_in_out.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,11 +85,7 @@ TEMPLATES = [
             ],
         },
     },
-     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-    },
+    
 ]
 
 WSGI_APPLICATION = 'sign_in_out.wsgi.application'
