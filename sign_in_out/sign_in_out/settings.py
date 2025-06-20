@@ -85,6 +85,11 @@ TEMPLATES = [
             ],
         },
     },
+     {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+    },
 ]
 
 WSGI_APPLICATION = 'sign_in_out.wsgi.application'

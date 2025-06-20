@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Check In</h1>
+    <button onclick="checkIn()">Check In</button>
+    <script>
+        async function checkIn() {
+            const token = "your-jwt-token"; // Obtain token via login
+            const response = await fetch('/api/attendance/', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `JWT ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ check_in: new Date().toISOString() })
+            });
+            alert(await response.json());
+        }
+    </script>
+{% endblock %}

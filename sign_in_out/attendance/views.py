@@ -14,3 +14,6 @@ class AttendanceViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+def check_in_page(request):
+    return render(request, 'attendance/check_in.html')
