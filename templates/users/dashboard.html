@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Staff Dashboard</h1>
+    <p>Total Check-ins: {{ total_checkins }}</p>
+    <h2>Attendance Records</h2>
+    <ul>
+        {% for attendance in attendances %}
+            <li>{{ attendance.user.username }} - {{ attendance.date }}: Check-in at {{ attendance.check_in }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
