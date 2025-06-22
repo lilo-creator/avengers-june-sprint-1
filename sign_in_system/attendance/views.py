@@ -4,16 +4,23 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Attendance
 from django.utils import timezone
 from rest_framework import status
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to the Avengers Sign In System!")
 
 class CheckInView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         user = request.user
+        if user.user_type != 'community':
+            return Response({"error": "Only community members can check in."}, status=status.HTTP_403_FORBIDDEN)
+
         today = timezone.now().date()
         if Attendance.objects.filter(user=user, date=today).exists():
             return Response({"error": "Already checked in today"}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         attendance = Attendance.objects.create(
             user=user,
             check_in=timezone.now(),
@@ -21,12 +28,14 @@ class CheckInView(APIView):
         )
         return Response({"message": "Checked in successfully", "check_in": attendance.check_in}, status=status.HTTP_201_CREATED)
 
-
 class CheckOutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         user = request.user
+        if user.user_type != 'community':
+            return Response({"error": "Only community members can check out."}, status=status.HTTP_403_FORBIDDEN)
+
         today = timezone.now().date()
         try:
             attendance = Attendance.objects.get(user=user, date=today, check_out__isnull=True)
@@ -35,3 +44,5 @@ class CheckOutView(APIView):
             return Response({"message": "Checked out successfully", "check_out": attendance.check_out}, status=status.HTTP_200_OK)
         except Attendance.DoesNotExist:
             return Response({"error": "No check-in record found for today"}, status=status.HTTP_400_BAD_REQUEST)
+
+        
